@@ -1,6 +1,7 @@
 package com.qa.PersonProject.controllers;
 
 import com.qa.PersonProject.entities.Person;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +21,13 @@ public class PersonController {
     }
 
     @PostMapping("/create")
-    public boolean addPerson(@RequestBody Person person) {
+    public boolean addPerson(@RequestBody @Valid Person person) {
         return this.people.add(person);
+    }
+
+    @GetMapping("/getAll")
+    public List<Person> getAll() {
+        return this.people;
     }
 
 }
