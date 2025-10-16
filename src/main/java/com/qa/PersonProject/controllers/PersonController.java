@@ -4,6 +4,7 @@ import com.qa.PersonProject.entities.Person;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
+import com.qa.PersonProject.services.PersonService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,34 +12,37 @@ import java.util.List;
 @RestController
 public class PersonController {
 
-    private List<Person> people = new ArrayList<>();
+    private PersonService service;
 
-    @GetMapping("/health")
-    public String health() {
-        return "Testing 1, 2, 3";
+    public PersonController(PersonService service) {
+        super();
+        this.service = service;
     }
 
     @PostMapping("/create")
     public boolean addPerson(@RequestBody @Valid Person person) {
-        return this.people.add(person);
+        return this.service.addPerson(person);
     }
 
     @GetMapping("/getAll")
     public List<Person> getAll() {
-        return this.people;
+        return this.service.getAll();
     }
 
     @PutMapping("/update")
     public Person updatePerson(@PathParam("id") Long id, @RequestBody @Valid Person person) {
-        this.people.remove(id.intValue());
-        this.people.add(id.intValue(), person);
-        return this.people.get(id.intValue());
+        return this.service.updatePerson(id, person);
 
     }
 
     @DeleteMapping("/delete/{id}")
     public Person removePerson(@PathVariable Long id) {
-        return this.people.remove(id.intValue());
+        return this.service.removePerson(id);
+    }
+
+    @GetMapping("/health")
+    public String health() {
+        return "Testing 1, 2, 3";
     }
 
 }
