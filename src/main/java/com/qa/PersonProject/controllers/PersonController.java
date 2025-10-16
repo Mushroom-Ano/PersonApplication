@@ -6,7 +6,6 @@ import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
 import com.qa.PersonProject.services.PersonService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -36,7 +35,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public Person removePerson(@PathVariable Long id) {
+    public boolean removePerson(@PathVariable Long id) {
         return this.service.removePerson(id);
     }
 
